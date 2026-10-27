@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content"
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="description" content="A fast, private, local-first Markdown notepad." />
+    <title>HushJot</title>
+
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <!-- iOS ignores the manifest and uses this. -->
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png?v=2" />
+    <link rel="icon" href="/icons/icon.svg?v=2" type="image/svg+xml" />
+    <link rel="icon" href="/icons/icon-192.png?v=2" type="image/png" sizes="192x192" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="HushJot" />
+    <!-- Matches the two palettes so the browser chrome does not flash the
+         wrong colour on load. -->
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#16181a" />
+
+    <!--
+      The shell is painted from inline CSS before any JavaScript parses, so a
+      repeat visit shows structure immediately rather than a white page (§7).
+      Keep this small: it is on the critical path by definition.
+    -->
+    <style>
+      /* The design tokens.
+
+         They are inline rather than in a stylesheet because the first paint
+         must need no round trip, and there are two documents that paint — this
+         one and the share viewer, `s/index.html` — so they exist twice. That is
+         a duplication a test guards rather than a comment: the block between
+         the markers below is compared byte-for-byte against the viewer's by
+         `tests/unit/shellTokens.test.ts`. Edit both, or neither. */
+      /* tokens:begin */
+      :root {
+        color-scheme: light;
+        --bg: #ffffff;
+        --bg-sunken: #f6f7f8;
+        --bg-raised: #ffffff;
+        --border: #e3e5e8;
+        --text: #1b1d1f;
+        --text-dim: #6b7076;
+        --text-faint: #9aa0a6;
+        /* Brand: the logo's caret is --signal. --accent is the same hue,
+           darkened in the light palette so it passes contrast as text on
+           white; --on-accent is the text colour on an accent fill. */
+        --signal: #ff5a1f;
+        --accent: #c2410c;
+        --accent-soft: #fff1ea;
+        --on-accent: #ffffff;
+        --danger: #c0392b;
+        --danger-soft: #fdecea;
+        /* Code-fence syntax colours, used by the editor highlight style. */
+        --syn-keyword: #8250df;
+        --syn-string: #0a7d4b;
+        --syn-number: #b35309;
+        --syn-comment: #6b7076;
+        --syn-function: #1f5fa8;
+        --syn-type: #b3541e;
+        --syn-property: #0b6b74;
+        --sidebar-w: 240px;
+        --header-h: 44px;
+        --status-h: 26px;
+        /* Phone chrome. The tab bar and the accessory key bar are the two
+           things a thumb reaches for, so their heights are tokens rather than
+           literals: `.app.mobile` pads the body by the first, and the editor
+           pads its scrollable content by the second. --kb-inset is written by
+           `src/ui/mobile/keyboardInset.ts` and is 0 everywhere the layout
+           viewport already shrinks for the keyboard (i.e. everywhere but iOS). */
+        --tabbar-h: 56px;
+        --keybar-h: 44px;
+        --kb-inset: 0px;
+        --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+        --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        --serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+        /* Editor text size, the ⌘+/⌘− control. Declared here so the editor is
+           the right size before any JavaScript parses; the store overrides it
+           only when the reader has chosen something else. */
+        --editor-font-size: 14px;
+        /* Editor and preview font family, the Appearance menu's choice. Same
+           reasoning as the size above, and the same mechanism: a custom
+           property is the one way to reach every CodeMirror view at once,
+           mounted or cached. Two tokens from one choice, because the editor
+           shows Markdown source and the preview shows prose, so "monospace"
+           has never meant a monospaced preview and must not start to. */
+        --editor-font: var(--mono);
+        --preview-font: var(--sans);
+      }
+      /* Dark palette. Written twice because a selector cannot sit both inside and
+         outside a media query: once for the OS preference, unless the reader
+         chose light, and once for an explicit dark choice. `data-theme` is set
+         by `src/ui/state/theme.svelte.ts` and absent when following the system. */
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          color-scheme: dark;
+          --bg: #16181a;
+          --bg-sunken: #101214;
+          --bg-raised: #1d2023;
+          --border: #2a2e33;
+          --text: #e6e8ea;
+          --text-dim: #9aa1a8;
+          --text-faint: #6d757d;
+          --accent: #ff7a45;
+          --accent-soft: #2b1d16;
+          --on-accent: #16181a;
+          --danger: #e0796b;
+          --danger-soft: #3a211d;
+          --syn-keyword: #c79bf0;
+          --syn-string: #7ec699;
+          --syn-number: #e0a06a;
+          --syn-comment: #6d757d;
+          --syn-function: #82b8f0;
+          --syn-type: #e6b78a;
+          --syn-property: #6fc3cc;
+        }
+      }
+      :root[data-theme="dark"] {
+        color-scheme: dark;
+        --bg: #16181a;
+        --bg-sunken: #101214;
+        --bg-raised: #1d2023;
+        --border: #2a2e33;
+        --text: #e6e8ea;
+        --text-dim: #9aa1a8;
+        --text-faint: #6d757d;
+        --accent: #ff7a45;
+        --accent-soft: #2b1d16;
+        --on-accent: #16181a;
+        --danger: #e0796b;
+        --danger-soft: #3a211d;
+        --syn-keyword: #c79bf0;
+        --syn-string: #7ec699;
+        --syn-number: #e0a06a;
+        --syn-comment: #6d757d;
+        --syn-function: #82b8f0;
+        --syn-type: #e6b78a;
+        --syn-property: #6fc3cc;
+      }
+      /* tokens:end */
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        height: 100%;
+        overscroll-behavior: none;
+        /* iOS otherwise flashes a grey box on every tap. */
+        -webkit-tap-highlight-color: transparent;
+        /* Landscape on iOS otherwise inflates text inside the editor. */
+        -webkit-text-size-adjust: 100%;
+      }
+
+      #app {
+        height: 100%;
+        /* Dynamic viewport units track the visible area as mobile browser
+           chrome and the virtual keyboard come and go; the percentage is the
+           fallback for browsers without dvh. */
+        height: 100dvh;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+        font-size: 14px;
+        -webkit-font-smoothing: antialiased;
+      }
+      /* Pre-hydration skeleton, replaced the moment the app mounts. */
+      #shell {
+        display: flex;
+        height: 100%;
+        border-top: 1px solid transparent;
+      }
+      #shell .s-side {
+        width: var(--sidebar-w);
+        border-right: 1px solid var(--border);
+        background: var(--bg-sunken);
+      }
+      #shell .s-main { flex: 1; }
+      @media (max-width: 720px) {
+        #shell .s-side { display: none; }
+      }
+      /* Line wrap, the toolbar's wrap control (`src/ui/state/lineWrap.svelte.ts`).
+         Global, like the size and font above, so it reaches every CodeMirror
+         view, mounted or cached. CodeMirror reads the computed white-space on
+         each measure, so overriding it here is enough. The scroller already
+         scrolls sideways. A column measure is in `ch`, so it stays put when the
+         text size changes; the 40px is `.cm-line`'s padding on both sides. */
+      :root[data-wrap="cols"] .cm-editor .cm-content {
+        width: calc(var(--editor-wrap-cols, 80) * 1ch + 40px);
+        max-width: none;
+        flex-shrink: 0;
+      }
+      :root[data-wrap="off"] .cm-editor .cm-content {
+        white-space: pre;
+        overflow-wrap: normal;
+        word-break: normal;
+        max-width: none;
+        flex-shrink: 0;
+      }
+      /* The preview's tables follow No wrap too: one line per cell, and the
+         table (already a block that scrolls sideways, markdown.css) does the
+         rest. Prose keeps wrapping — sideways-scrolling paragraphs are
+         unreadable. Here rather than in markdown.css because the share viewer
+         loads that file and never sets data-wrap. */
+      :root[data-wrap="off"] .markdown :is(th, td) {
+        white-space: nowrap;
+        overflow-wrap: normal;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div id="shell" aria-hidden="true">
+        <div class="s-side"></div>
+        <div class="s-main"></div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

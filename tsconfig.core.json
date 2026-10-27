@@ -1,0 +1,40 @@
+{
+  // Emit config for the published `@hushjot/core` package (Phase A of the CLI
+  // work; see `src/core/public.ts` for what the package is and why it exists).
+  //
+  // This is the repo's *only* tsc emit. The app is transpiled by Vite and the
+  // tests by Vitest, and `npm run check` is svelte-check with `noEmit`, so
+  // nothing else here has ever produced a .js file. Keeping the emit in its own
+  // config means the app's config stays `noEmit: true` and cannot grow an
+  // output directory by accident.
+  //
+  // `files` is a single entry on purpose: the program is exactly the barrel's
+  // transitive imports, so a module that stops being reachable from
+  // `public.ts` stops being published without anyone having to remember to
+  // remove it from a list.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    // No source maps: they would point at `.ts` files the package does not
+    // ship, so every consumer would see broken links. Someone debugging the
+    // format should be reading this repository, not the emit.
+    "outDir": "dist-core",
+    "rootDir": "src/core",
+    // TS 5.7. Every import in this repo carries a literal `.ts` extension
+    // (`allowImportingTsExtensions`, inherited); this is what rewrites them to
+    // `.js` on the way out so the emitted package resolves under Node's ESM
+    // loader. Without it the emit would be syntactically valid and completely
+    // unloadable.
+    "rewriteRelativeImportExtensions": true,
+    // The published .d.ts must not depend on Vite's ambient types — a consumer
+    // of this package has no Vite. Nothing under `src/core/**` uses
+    // `import.meta.env`, so dropping it costs nothing and stops it creeping in.
+    "types": ["node"]
+  },
+  // `include: []` is load-bearing beside `files`: `extends` inherits the base
+  // config's `include` (`src/**`, `bench/**`, `tests/**`), and `files` does not
+  // replace it. Without the empty override this emits the entire app.
+  "include": [],
+  "files": ["src/core/public.ts"]
+}

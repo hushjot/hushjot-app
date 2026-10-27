@@ -1,0 +1,359 @@
+{
+  "generatedAt": "2026-10-17T17:08:13.758Z",
+  "platform": "darwin",
+  "node": "v26.12.0",
+  "results": {
+    "editor": {
+      "native": {
+        "syntaxCoverage": {
+          "requiredNodeTypesMissing": [],
+          "markdownHighlightRanges": 46,
+          "fencedCodeSpansBefore": 0,
+          "fencedCodeSpansAfter": 10,
+          "lazyGrammarLoadMs": 102
+        },
+        "docBytes": 200091,
+        "docLines": 6766,
+        "initialMountMs": 5.9,
+        "keystrokeBlockMs_endOfDoc": {
+          "n": 120,
+          "min": 0.9,
+          "p50": 2,
+          "p95": 3.5,
+          "p99": 21.2,
+          "max": 23.1,
+          "mean": 2.378
+        },
+        "keystrokeBlockMs_midDoc": {
+          "n": 120,
+          "min": 1.4,
+          "p50": 2.7,
+          "p95": 3.6,
+          "p99": 4.5,
+          "max": 4.7,
+          "mean": 2.673
+        },
+        "longTasks": {
+          "count": 0,
+          "totalMs": 0,
+          "maxMs": 0
+        }
+      },
+      "cpu_4x": {
+        "syntaxCoverage": {
+          "requiredNodeTypesMissing": [],
+          "markdownHighlightRanges": 46,
+          "fencedCodeSpansBefore": 0,
+          "fencedCodeSpansAfter": 10,
+          "lazyGrammarLoadMs": 100
+        },
+        "docBytes": 200091,
+        "docLines": 6766,
+        "initialMountMs": 18.6,
+        "keystrokeBlockMs_endOfDoc": {
+          "n": 120,
+          "min": 1.3,
+          "p50": 2.1,
+          "p95": 23.5,
+          "p99": 27.1,
+          "max": 29.1,
+          "mean": 4.427
+        },
+        "keystrokeBlockMs_midDoc": {
+          "n": 120,
+          "min": 2.4,
+          "p50": 3.2,
+          "p95": 4.9,
+          "p99": 7.4,
+          "max": 8,
+          "mean": 3.367
+        },
+        "longTasks": {
+          "count": 0,
+          "totalMs": 0,
+          "maxMs": 0
+        }
+      }
+    },
+    "kdf": {
+      "native": {
+        "coldFirstUnlockMs": 98.6,
+        "warmByParams": {
+          "m=64MiB,t=3,p=1": {
+            "n": 5,
+            "min": 95.7,
+            "p50": 98.3,
+            "p95": 100.9,
+            "p99": 100.9,
+            "max": 100.9,
+            "mean": 98.3
+          },
+          "m=64MiB,t=2,p=1": {
+            "n": 5,
+            "min": 65.5,
+            "p50": 68,
+            "p95": 68.3,
+            "p99": 68.3,
+            "max": 68.3,
+            "mean": 67.5
+          },
+          "m=32MiB,t=3,p=1": {
+            "n": 5,
+            "min": 44.3,
+            "p50": 45.6,
+            "p95": 46.4,
+            "p99": 46.4,
+            "max": 46.4,
+            "mean": 45.6
+          },
+          "m=19MiB,t=2,p=1": {
+            "n": 5,
+            "min": 16.5,
+            "p50": 16.7,
+            "p95": 17.5,
+            "p99": 17.5,
+            "max": 17.5,
+            "mean": 16.9
+          }
+        }
+      },
+      "cpu_4x": {
+        "coldFirstUnlockMs": 106.4,
+        "warmByParams": {
+          "m=64MiB,t=3,p=1": {
+            "n": 5,
+            "min": 97.9,
+            "p50": 98.3,
+            "p95": 99,
+            "p99": 99,
+            "max": 99,
+            "mean": 98.3
+          },
+          "m=64MiB,t=2,p=1": {
+            "n": 5,
+            "min": 65.3,
+            "p50": 65.6,
+            "p95": 65.9,
+            "p99": 65.9,
+            "max": 65.9,
+            "mean": 65.6
+          },
+          "m=32MiB,t=3,p=1": {
+            "n": 5,
+            "min": 45.5,
+            "p50": 46.4,
+            "p95": 46.5,
+            "p99": 46.5,
+            "max": 46.5,
+            "mean": 46.1
+          },
+          "m=19MiB,t=2,p=1": {
+            "n": 5,
+            "min": 17.2,
+            "p50": 17.6,
+            "p95": 17.9,
+            "p99": 17.9,
+            "max": 17.9,
+            "mean": 17.6
+          }
+        }
+      }
+    },
+    "coldstart": {
+      "native": {
+        "seed": {
+          "count": 10000,
+          "plaintextBytes": 30672111,
+          "metaCipherBytes": 882006,
+          "bodyCipherBytes": 30832509,
+          "seedMs": 2297.2,
+          "plaintextMB": 30.67,
+          "metaCipherMB": 0.88,
+          "bodyCipherMB": 30.83
+        },
+        "layouts": {
+          "A_singleCiphertext": {
+            "idbReadMs": 93.6,
+            "decryptMs": 44.4,
+            "parseSortRenderMs": 45.3,
+            "totalToInteractiveMs": 183.3,
+            "domNodes": 18
+          },
+          "B_splitCipherSameStore": {
+            "idbReadMs": 87,
+            "decryptMs": 19.2,
+            "parseSortRenderMs": 3.6,
+            "totalToInteractiveMs": 109.8,
+            "domNodes": 18
+          },
+          "C_separateMetaStore": {
+            "idbReadMs": 20.3,
+            "decryptMs": 20.3,
+            "parseSortRenderMs": 3.6,
+            "totalToInteractiveMs": 44.2,
+            "domNodes": 18
+          },
+          "noteOpenMs": {
+            "p50": 0.1,
+            "p95": 0.2,
+            "max": 0.3
+          }
+        },
+        "searchIndex": {
+          "sampleHitCount": 4333,
+          "bodyReadMs": 58,
+          "bodyDecryptMs": 35.5,
+          "indexBuildMs": 332.7,
+          "totalIndexSweepMs": 426.2,
+          "uniqueTokens": 40016,
+          "searchPrefixScanMs": {
+            "p50": 0.3,
+            "p95": 0.6
+          }
+        },
+        "heapMB": 386
+      }
+    },
+    "persist": {
+      "native": {
+        "encryptOnlyByNoteSize": {
+          "1KB": {
+            "n": 30,
+            "min": 0,
+            "p50": 0,
+            "p95": 0,
+            "p99": 0.1,
+            "max": 0.1,
+            "mean": 0.003
+          },
+          "10KB": {
+            "n": 30,
+            "min": 0,
+            "p50": 0,
+            "p95": 0.1,
+            "p99": 0.1,
+            "max": 0.1,
+            "mean": 0.013
+          },
+          "100KB": {
+            "n": 30,
+            "min": 0,
+            "p50": 0.1,
+            "p95": 0.2,
+            "p99": 0.2,
+            "max": 0.2,
+            "mean": 0.077
+          },
+          "500KB": {
+            "n": 30,
+            "min": 0.3,
+            "p50": 0.4,
+            "p95": 0.5,
+            "p99": 0.5,
+            "max": 0.5,
+            "mean": 0.437
+          }
+        },
+        "fullSaveCycleMs": {
+          "n": 200,
+          "min": 0,
+          "p50": 0.1,
+          "p95": 0.2,
+          "p99": 0.3,
+          "max": 0.3,
+          "mean": 0.094
+        },
+        "workerRoundTripMs": {
+          "n": 200,
+          "min": 0,
+          "p50": 0,
+          "p95": 0.1,
+          "p99": 0.2,
+          "max": 0.2,
+          "mean": 0.019
+        },
+        "teardownFlush": {
+          "dirtyNotes": 5,
+          "totalMs": 0.2
+        },
+        "integrity": {
+          "verified": 5,
+          "mismatched": 0
+        }
+      }
+    },
+    "diag": {
+      "native": {
+        "lean": {
+          "label": "markdownLean",
+          "beforeLoad": {
+            "nodeCount": 38,
+            "highlightRanges": 28
+          },
+          "afterLoad": {
+            "nodeCount": 38,
+            "highlightRanges": 43
+          },
+          "codeSpansBefore": 0,
+          "codeSpansAfter": 15,
+          "lazyGrammarLoaded": true,
+          "lazyLoadMs": 101,
+          "nestedNodeSample": [
+            "ATXHeading1@0-13",
+            "StrongEmphasis@15-23",
+            "Emphasis@24-32",
+            "Strikethrough@33-43",
+            "StrikethroughMark@33-35",
+            "StrikethroughMark@41-43",
+            "InlineCode@44-50",
+            "Link@52-79",
+            "URL@59-78",
+            "FencedCode@81-164",
+            "CodeInfo@84-88",
+            "CodeText@89-160",
+            "FencedCode@166-228",
+            "CodeInfo@169-172",
+            "CodeText@173-224",
+            "FencedCode@230-275",
+            "CodeInfo@233-239",
+            "CodeText@240-271"
+          ],
+          "jsChunksFetched": 8
+        },
+        "official": {
+          "label": "lang-markdown",
+          "beforeLoad": {
+            "nodeCount": 35,
+            "highlightRanges": 40
+          },
+          "afterLoad": {
+            "nodeCount": 35,
+            "highlightRanges": 40
+          },
+          "codeSpansBefore": 15,
+          "codeSpansAfter": 15,
+          "lazyGrammarLoaded": false,
+          "lazyLoadMs": 0,
+          "nestedNodeSample": [
+            "ATXHeading1@0-13",
+            "StrongEmphasis@15-23",
+            "Emphasis@24-32",
+            "InlineCode@44-50",
+            "Link@52-79",
+            "URL@59-78",
+            "FencedCode@81-164",
+            "CodeInfo@84-88",
+            "CodeText@89-160",
+            "FencedCode@166-228",
+            "CodeInfo@169-172",
+            "CodeText@173-224",
+            "FencedCode@230-275",
+            "CodeInfo@233-239",
+            "CodeText@240-271"
+          ],
+          "jsChunksFetched": 12
+        }
+      }
+    }
+  }
+}

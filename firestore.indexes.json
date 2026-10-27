@@ -1,0 +1,165 @@
+{
+  "indexes": [],
+  "fieldOverrides": [
+    {
+      "collectionGroup": "notes",
+      "fieldPath": "meta",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "notes",
+      "fieldPath": "body",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "folders",
+      "fieldPath": "data",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "versions",
+      "fieldPath": "meta",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "versions",
+      "fieldPath": "body",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "shares",
+      "fieldPath": "payload",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "notes",
+      "fieldPath": "v",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "notes",
+      "fieldPath": "revision",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "notes",
+      "fieldPath": "updatedAt",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "notes",
+      "fieldPath": "deleted",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "folders",
+      "fieldPath": "v",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "folders",
+      "fieldPath": "createdAt",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "folders",
+      "fieldPath": "updatedAt",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "folders",
+      "fieldPath": "deleted",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "versions",
+      "fieldPath": "v",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "versions",
+      "fieldPath": "at",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "versions",
+      "fieldPath": "reason",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "shares",
+      "fieldPath": "v",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "shares",
+      "fieldPath": "key",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "shares",
+      "fieldPath": "noteId",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "usage",
+      "fieldPath": "bytes",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "usage",
+      "fieldPath": "hist",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "usage",
+      "fieldPath": "shares",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "usage",
+      "fieldPath": "pushes",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "usage",
+      "fieldPath": "ws",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "usage",
+      "fieldPath": "pn",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "usage",
+      "fieldPath": "lastDoc",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "usage",
+      "fieldPath": "reconciledAt",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "keys",
+      "fieldPath": "v",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "keys",
+      "fieldPath": "record",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "keys",
+      "fieldPath": "updatedAt",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "keys",
+      "fieldPath": "resetAt",
+      "indexes": []
+    }
+  ]
+}

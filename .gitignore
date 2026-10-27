@@ -1,0 +1,35 @@
+node_modules/
+dist/
+.DS_Store
+*.local
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+.env
+.env.*
+!.env.example
+
+# Editors
+.idea/
+.vscode/
+
+# Benchmark build output
+bench/dist*/
+bench/results-*.json
+
+# Generated icons are committed; the generator is tools/make-icons.mjs
+.gstack/
+
+# @hushjot/core package output; build with npm run build:core
+dist-core/
+
+# Credentials — never commit a service account key
+*service-account*.json
+serviceAccount*.json
+
+# Emulator state from --import/--export-on-exit
+.emulator-data/
+
+# Backup function build output
+private/backup/lib/

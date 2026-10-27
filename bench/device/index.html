@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Argon2id on real hardware</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+      }
+      body {
+        margin: 0;
+        padding: 16px;
+        font: 15px/1.5 system-ui, sans-serif;
+        max-width: 720px;
+      }
+      h1 {
+        font-size: 19px;
+        margin: 0 0 4px;
+      }
+      p.lede {
+        margin: 0 0 16px;
+        opacity: 0.75;
+        font-size: 13px;
+      }
+      button {
+        font: inherit;
+        padding: 12px 18px;
+        min-height: 44px;
+        border-radius: 8px;
+        border: 1px solid currentColor;
+        background: transparent;
+        color: inherit;
+      }
+      button:disabled {
+        opacity: 0.5;
+      }
+      #status {
+        margin: 14px 0;
+        font-size: 13px;
+        min-height: 3em;
+      }
+      /* A throttled run produces numbers that look fine, so the one state that
+         must not be misread gets the loudest treatment on the page. */
+      #status.discard {
+        color: #c0392b;
+        font-weight: 700;
+        border: 2px solid currentColor;
+        border-radius: 8px;
+        padding: 10px;
+      }
+      /* The grid is six columns on a phone; let it scroll rather than wrap. */
+      .scroll {
+        overflow-x: auto;
+      }
+      table {
+        border-collapse: collapse;
+        font-size: 12px;
+        white-space: nowrap;
+      }
+      th,
+      td {
+        border-bottom: 1px solid rgba(128, 128, 128, 0.4);
+        padding: 6px 10px 6px 0;
+        text-align: left;
+      }
+      tr.failed td {
+        color: #c0392b;
+        font-weight: 600;
+      }
+      textarea {
+        width: 100%;
+        min-height: 220px;
+        margin-top: 16px;
+        font-family: ui-monospace, monospace;
+        font-size: 11px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Argon2id on real hardware</h1>
+    <p class="lede">
+      Security open item #2. Creates no vault and stores nothing; it only times the
+      key derivation this device would actually do to unlock. Takes about two
+      minutes. Keep the screen on and do not switch apps — a backgrounded tab is
+      throttled and the numbers become meaningless.
+    </p>
+
+    <button id="run" type="button">Run</button>
+    <p id="status"></p>
+
+    <div class="scroll">
+      <table id="results">
+        <thead>
+          <tr>
+            <th>pass</th>
+            <th>params</th>
+            <th>p50 ms</th>
+            <th>p95 ms</th>
+            <th>max ms</th>
+            <th>verdict</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <textarea id="json" readonly placeholder="Results appear here as JSON."></textarea>
+
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

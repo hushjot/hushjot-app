@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <!-- Full-bleed variant for Android adaptive icons: the mark is scaled into the central safe zone. -->
+  <rect width="1024" height="1024" fill="#16181A"/>
+  <g transform="translate(512 490) scale(0.8) translate(-512 -490)">
+    <path d="M290 548 Q512 596 734 548" fill="none" stroke="#F2F3F5" stroke-width="80" stroke-linecap="round"/>
+    <rect x="472" y="252" width="80" height="476" rx="8" fill="#FF5A1F"/>
+  </g>
+</svg>
