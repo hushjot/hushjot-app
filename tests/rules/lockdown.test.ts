@@ -7,8 +7,8 @@
  * (`src/core/sync/pause.ts`). `firestore.rules.test.ts` checks the other half,
  * that the normal rules refuse the same `get`.
  *
- * The ruleset lives in `private/`, which the public export leaves out, so this
- * file skips itself there rather than failing.
+ * The ruleset is not published, so this file skips itself in a public
+ * checkout rather than failing.
  *
  * Same project id as the other rules suites, because `firebase.json` runs the
  * emulator in single-project mode; suites run one file at a time and each one

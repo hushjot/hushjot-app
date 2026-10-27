@@ -14,7 +14,7 @@
  * On unless turned off, which is why only "off" is ever written: this is a
  * notepad for prose before it is one for code, and the reader who wants a
  * clean margin under a fence turns it off once, per device. Every competitor
- * spellchecks by default (`private/viability-assessment.md` § 5).
+ * spellchecks by default.
  *
  * Only `spellcheck`. CodeMirror also disables `autocorrect`, `autocapitalize`
  * and `writingsuggestions`, and those stay off: they rewrite the text as it is

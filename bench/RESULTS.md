@@ -432,7 +432,7 @@ police a few hundred milliseconds.
 
 # Firestore operations per session
 
-Added to replace the cost *estimate* in `private/viability-assessment.md` §7 with
+Added to replace an earlier cost *estimate* with
 measurements. `src/adapters/firebase/opCount.ts` counts billed operations at the
 adapter seam in emulator builds (empty queries bill one read; listeners bill per
 changed document; every request under `/users` bills one more read for the

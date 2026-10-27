@@ -1,7 +1,7 @@
 /**
  * "Sync is paused": telling a cost lockdown apart from a refused account.
  *
- * The cost kill switch (`private/cost-monitoring.md`) replaces the Firestore
+ * The cost kill switch replaces the Firestore
  * rules with a ruleset that refuses every client request. Every read and write
  * then fails with the same `permission-denied` an account with no plan gets,
  * and a client that reads it the ordinary way tells a paying user their plan
@@ -46,7 +46,7 @@
 
 /**
  * The document the lockdown ruleset lets anyone `get`. Shared with
- * `@hushjot/cli` and mirrored by `private/killswitch/lockdown.rules`, the share
+ * `@hushjot/cli` and mirrored by the lockdown ruleset, the share
  * viewer and the hushjot.com account page; `tests/rules/lockdown.test.ts`
  * checks it against both rulesets.
  */

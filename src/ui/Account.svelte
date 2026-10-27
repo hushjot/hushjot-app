@@ -72,7 +72,7 @@
      * No command for either, for the reason given above about quick capture: a
      * command owes a home in `shortcuts.ts`, the palette and
      * `mobile/moreItems.ts`, all enforced by tests, for something nobody looks
-     * for twice a year. `private/viability-assessment.md` put both in this panel.
+     * for twice a year. Both belong in this panel.
      */
     onChangePassphrase: () => void;
     onReissueRecoveryCode: () => void;

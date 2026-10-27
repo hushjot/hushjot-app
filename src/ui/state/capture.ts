@@ -4,7 +4,7 @@
  * Android's share sheet POSTs to `/capture`; `src/sw.js` reads the body, parks
  * it in memory and answers with the app shell. This is the other half: the
  * page asks for it, holds it, and hands it to `App.svelte` once the vault is
- * open. `private/viability-assessment.md` item 16.
+ * open.
  *
  * ## Why this runs before the app mounts
  *

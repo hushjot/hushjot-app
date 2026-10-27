@@ -4,8 +4,7 @@
  * The list shipped with one order: pinned, then most recently edited
  * (`orderForList` in `core/notes/model.ts`). That is the right default and it
  * is still the default, but it is not a defensible *only* option — Simplenote
- * and Bear both let a reader choose, and `private/viability-assessment.md` § 4.1
- * counted the absence among the things a person notices in the first hour.
+ * and Bear both let a reader choose, and the absence is among the things a person notices in the first hour.
  *
  * A per-device preference, not data: `localStorage`, not the encrypted
  * repository, for the same reason the theme and the text size live there. Two

@@ -13,8 +13,7 @@
  * time `hushjot append` touched it. `src/core/public.ts` states the rule.
  * Folders are worse again: they have no `revision` and no compare-and-swap, so
  * two devices reordering at once resolve last-write-wins and the ranks collide
- * with no conflict copy. `private/viability-assessment.md` § 4.1 records the
- * decision.
+ * with no conflict copy. That trade was made on purpose.
  *
  * Three things about the wire format are load-bearing:
  *

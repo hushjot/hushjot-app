@@ -1,7 +1,7 @@
 /**
  * A tally of billed Firestore operations, for the benchmarks.
  *
- * The viability assessment priced the backend from a model of the sync
+ * An earlier estimate priced the backend from a model of the sync
  * cadence, and a model is only as good as the guess about which calls happen.
  * This counts the calls that actually happen, at the one seam every Firestore
  * request passes through, so `bench:phase4` and `bench:phase5` can say what a

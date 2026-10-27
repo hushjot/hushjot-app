@@ -542,12 +542,12 @@ unlocked and the notes stay on the device.
 
 Synced data is not promised forever for an account nobody pays for: it is kept
 at least 90 days after a plan lapses, and after that the billing API may delete
-it from Firestore, after two emailed warnings (`private/billing.md`, "Retention").
+it from Firestore, after two emailed warnings.
 That purge is built but switched off in production as of October 2026. That deletes ciphertext
 we could never read, and nothing on any device.
 
 The plan document is written only by the billing API — a service account on
-the billing server, driven by Paddle's signed webhooks (`private/billing.md`).
+the billing server, driven by Paddle's signed webhooks.
 No client can write it, and a lapsed plan needs no write to switch off: the
 rules compare `until` to `request.time`. The billing system learns your email,
 your uid, what you paid and when; it never sees a note, a title or a key.
@@ -661,7 +661,7 @@ backdate is not evidence. `tests/rules/consents.test.ts`.
 ### Backups
 
 Firestore PITR (7 days) and weekly backups stay inside the `hushjot` project.
-A weekly function (`private/backup/`) also copies Firestore **and Firebase Auth**
+A weekly function also copies Firestore **and Firebase Auth**
 to a bucket in a separate project, in the `US` multi-region
 (a managed export cannot leave the database's location). That
 bucket has a locked 30-day retention policy. None of this changes what the
@@ -674,7 +674,7 @@ server can read:
 The scrypt hash parameters are kept out of the bucket. A copy in the vault is
 retained for up to 35 days after the user deletes the original, and the
 privacy policy discloses up to 60 days.
-`private/disaster-recovery.md` is the runbook.
+Restoring from these is covered by the operator's runbook.
 
 ### The service-worker cache
 
@@ -1816,7 +1816,7 @@ Run `npm run verify`. Two things specifically prove the claims on this page:
    attest as one, so enabling it needs a deliberate answer for the CLI (a debug
    token, a separate service identity, or accepting that sync is browser-only),
    not just a switch. Until then the backstops are the budget alerts and the
-   kill switch (`private/cost-monitoring.md`). The kill switch's ruleset is not
+   kill switch. The kill switch's ruleset is not
    quite deny-all: it allows anyone a `get` of one document,
    `status/lockdown`, which does not exist and which the normal rules refuse.
    Being allowed to read it is how a refused client knows sync is paused for

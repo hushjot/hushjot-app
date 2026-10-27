@@ -75,14 +75,6 @@ firebase deploy --only firestore:rules,firestore:indexes   # always BEFORE hosti
 firebase deploy --only hosting           # predeploy runs npm run build
 ```
 
-Operator runbooks (production project, backups, restores, breach response) are listed in
-`private/README.md`.
-
-The public repository is written from a private working copy by `npm run export:public -- <dir>`,
-which exports `HEAD` without `private/` (`tools/export-public.mjs`) and fails if any word in
-`private/export-forbidden.txt` appears in the result. Anything that must never be published —
-runbooks, business notes, operator infrastructure — goes in `private/`.
-
 ## Architecture
 
 Layers, with a strict dependency direction — each layer may import downward, never upward:
@@ -418,8 +410,7 @@ dispatch `DragEvent`s by hand rather than using Playwright's native drag.
 
 **The published core** (`src/core/public.ts`, `tsconfig.core.json`, `tools/build-core.mjs`,
 `contract/`). `@hushjot/core` is a Node package built out of this repo for a **second client**:
-`@hushjot/cli`, a CLI and MCP server that hold the key on the operator's machine
-(`private/viability-assessment.md` item 14). `public.ts` is a curated barrel — a *list*, not a
+`@hushjot/cli`, a CLI and MCP server that hold the key on the operator's machine. `public.ts` is a curated barrel — a *list*, not a
 re-export of the directory, because admitting a symbol makes it an API with a release cycle —
 covering the envelope, key records, `codec.ts`'s sealed-JSON helpers, `notes/`, `search/index.ts`
 and the `sync/adapter.ts` types. Nothing above `src/core/` and nothing that touches IndexedDB.
@@ -623,8 +614,8 @@ copy per open note (up to four tiles, `src/ui/tiling.ts`) — **ciphertext only*
   only shows up in a deployed build. `docs/security.md` § "Two policies, not one" explains the
   trap.
 - **Sync needs a plan or an invitation.** `approved()` in the rules is `entitled() || invited()`:
-  `entitlements/{uid}` written by the billing API from Paddle webhooks (`private/billing.md`), or
-  the hand-kept `allowlist/{email}` (`private/adding-a-user.md`, now the comp path). Accounts are
+  `entitlements/{uid}` written by the billing API from Paddle webhooks, or
+  the hand-kept `allowlist/{email}` (now the comp path). Accounts are
   self-serve but **created on hushjot.com only** — the app has no sign-up form, and never loads
   a payment script; plans are bought on hushjot.com, and `src/ui/billingLinks.ts` holds the only
   links there. An account the backend refuses is **signed out**, not left signed in: at sign-in,
@@ -632,7 +623,7 @@ copy per open note (up to four tiles, `src/ui/tiling.ts`) — **ciphertext only*
   only on an authoritative `denied` — `unknown` is what offline looks like and must change
   nothing. That sign-out is `syncStore.signOut()`, never `signOutNow`: a lapsed plan must not
   lock anyone out of their own vault. Ninety days after a lapse the billing API empties the
-  account (`private/billing.md`, "Retention"); `accountWasReset` in `core/sync/backfill.ts` is what
+  account; `accountWasReset` in `core/sync/backfill.ts` is what
   puts the key record back, and `bench:allowlist` gates all of it. A **vault reset** (a signed-in
   user who lost both secrets starts over, `StartOver.svelte` → the billing API) is the opposite
   case and must be told apart from a purge: it leaves a *tombstone* key document (`resetAt`, no
@@ -645,7 +636,7 @@ copy per open note (up to four tiles, `src/ui/tiling.ts`) — **ciphertext only*
   link *is*. `list` is denied there as it is for the allowlist, so it cannot be enumerated, and
   publishing still requires an approved account.
 - **A refusal is checked for a pause before it is believed.** The cost kill switch
-  (`private/cost-monitoring.md`) releases `private/killswitch/lockdown.rules`, which refuses every
+  releases a lockdown ruleset (`bench/lib/lockdown.mjs` has an equivalent), which refuses every
   client with the same `permission-denied` an unapproved account gets — so read naively it tells
   paying users their plan lapsed, offers them a second subscription, lets a new device create a
   second vault and releases the first-run gate. That ruleset allows exactly one thing, a `get` of

@@ -3,8 +3,7 @@
  *
  * Installing is the one fix for eviction a local-only user can apply in a tap:
  * WebKit exempts Home Screen and Dock apps from the seven-day deletion of
- * script-writable storage, and grants `persist()` to little else
- * (`private/viability-assessment.md` §5.3).
+ * script-writable storage, and grants `persist()` to little else.
  *
  * Only Chromium has an API for it (`beforeinstallprompt`). Safari has a menu
  * item and no event, so there the banner can only say where the item is.

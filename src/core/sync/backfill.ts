@@ -292,10 +292,10 @@ export function keyRecordIsStale(input: {
 /**
  * Has the account been emptied since this device last furnished it?
  *
- * Synced data is deleted from the backend when a plan has been lapsed for six
- * months (private/billing.md, "Retention"). The login survives, and so does
- * everything on this device — including `VAULT_ACCOUNT_KEY`, which goes on
- * saying the account's key record is this device's. It was. `classifyVault`
+ * Synced data may be deleted from the backend once a plan has been lapsed for
+ * 90 days. The login survives, and so does everything on this device —
+ * including `VAULT_ACCOUNT_KEY`, which goes on saying the account's key record
+ * is this device's. It was. `classifyVault`
  * answers a bound device from that marker alone, so nothing would ever put the
  * record back: the notes would upload again under a key the account no longer
  * holds, and the next new device would find no vault and create a second one.

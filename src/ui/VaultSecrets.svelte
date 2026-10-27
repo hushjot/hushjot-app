@@ -5,8 +5,8 @@
    * `Vault.changePassphrase` existed, correct and unit-tested, and nothing in
    * `src/ui` called it — so the only answer to "somebody may have seen my
    * passphrase" was "remove all data from this device and start again".
-   * `private/viability-assessment.md` called that the most important item in the
-   * document. This is it.
+   * A product review called that the single most important gap. This is the
+   * fix.
    *
    * ## Four modes, one file
    *

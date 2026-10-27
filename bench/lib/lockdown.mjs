@@ -2,11 +2,11 @@
  * The two rulesets a lockdown drill switches between: the real rules, and the
  * cost kill switch's lockdown ruleset (`private/killswitch/lockdown.rules`).
  *
- * The lockdown file lives in `private/`, which the public export leaves out,
- * so a public checkout falls back to an equivalent written here: refuse every
- * request, except a `get` of the sentinel (`src/core/sync/pause.ts`). The
- * private file is preferred whenever it exists, so the operator's runs drill
- * the ruleset that would really be released.
+ * The lockdown file is not published, so a public checkout falls back to an
+ * equivalent written here: refuse every request, except a `get` of the
+ * sentinel (`src/core/sync/pause.ts`). The real file is preferred whenever it
+ * exists, so the operator's runs drill the ruleset that would really be
+ * released.
  */
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';

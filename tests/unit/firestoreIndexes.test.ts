@@ -108,7 +108,7 @@ describe('Firestore index files', () => {
   });
 
   it('is the Blaze file that firebase.json deploys today', () => {
-    // The project moved to Blaze with billing (private/billing.md), which is what
+    // The project moved to Blaze with billing, which is what
     // unparks the TTL policies. Point back at the Spark file only on a project
     // with billing disabled.
     const config = JSON.parse(readFileSync(resolve(process.cwd(), 'firebase.json'), 'utf8'));

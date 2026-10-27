@@ -1,5 +1,5 @@
 /**
- * Quick capture (`private/viability-assessment.md` item 16).
+ * Quick capture.
  *
  * Two things are worth testing here and nothing else is: the de-duplication
  * rules in `composeCapture`, because every one of them exists because some

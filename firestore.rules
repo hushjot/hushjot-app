@@ -33,14 +33,13 @@ service cloud.firestore {
     // address that can authenticate can sync.
     //
     // `entitled()` is a paid plan: `/entitlements/{uid}`, written only by the
-    // billing API with a service account (private/billing.md). Keyed by uid, not
+    // billing API with a service account. Keyed by uid, not
     // email, because it is the account that paid. `until` is epoch
     // milliseconds — the period end plus grace — so a plan lapses on its own
     // clock and needs no write to switch off.
     //
     // `invited()` is the original invitation list, kept so early users are
-    // grandfathered and so the operator can comp an account by hand
-    // (private/adding-a-user.md). The email is the identity because that is what
+    // grandfathered and so the operator can comp an account by hand. The email is the identity because that is what
     // an invitation is issued to; uid is not known until the account exists.
     // Lowercased on both sides so casing cannot decide authorisation.
     //
@@ -724,7 +723,7 @@ service cloud.firestore {
     // relying on the default, so adding a collection cannot silently open it.
     //
     // That includes /status/lockdown, on purpose: the cost kill switch's
-    // ruleset (private/killswitch/lockdown.rules) allows a `get` of it and
+    // ruleset (bench/lib/lockdown.mjs has an equivalent) allows a `get` of it and
     // nothing else, so a client refused here can tell "this account may not
     // sync" from "everyone is locked out" by whether that `get` is refused too
     // (src/core/sync/pause.ts). Never give /status a rule in this file.

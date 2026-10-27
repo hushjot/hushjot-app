@@ -43,8 +43,8 @@
  * (one per publish).
  *
  * The same definition is implemented in the billing API's recount (it stamps
- * `reconciledAt`) and in `private/recount-usage.mjs`. Change one and you must
- * change the others.
+ * `reconciledAt`) and in the operator's manual recount. Change one and you
+ * must change the others.
  *
  * ## `ws`/`pn`: pushes in the current day
  *

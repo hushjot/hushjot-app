@@ -1,7 +1,6 @@
 <script lang="ts">
   /**
-   * How to send text to HushJot from somewhere else
-   * (`private/viability-assessment.md` item 16).
+   * How to send text to HushJot from somewhere else.
    *
    * Its own lazy chunk, like the share and export dialogs (§28): it is opened
    * once, when someone sets this up, and never again.

@@ -624,7 +624,7 @@ await scenario('cross-device latency', async () => {
 // --- 6. operations per session ---------------------------------------------
 //
 // What a session costs in billed Firestore operations, measured rather than
-// modelled: the viability assessment priced the backend from a guess about
+// modelled: an earlier estimate priced the backend from a guess about
 // which calls the cadence makes, and this replaces the guess.
 //
 // One device, so nothing another device does is folded into its bill. Each

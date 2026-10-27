@@ -32,7 +32,6 @@
     "bench:vault": "firebase emulators:exec --only firestore,auth --project teksto-dev 'node bench/vaultBinding.mjs'",
     "bench:phase5": "firebase emulators:exec --only firestore,auth --project teksto-dev 'node bench/phase5.mjs'",
     "icons": "node tools/make-icons.mjs",
-    "export:public": "node tools/export-public.mjs",
     "bench:phase6": "node bench/phase6.mjs",
     "bench:mobile": "node bench/mobile.mjs",
     "bench:preview": "node bench/preview.mjs",

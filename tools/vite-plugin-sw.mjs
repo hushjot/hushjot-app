@@ -24,7 +24,7 @@
  * same trap was open one door along: editing `manifest.webmanifest` changed no
  * filename, produced a byte-identical `sw.js`, and every existing install kept
  * the old manifest forever. That is not hypothetical — `share_target` lives in
- * that file now (`private/viability-assessment.md` item 16), so a change to what
+ * that file now (for quick capture), so a change to what
  * the share sheet sends is a change nobody would receive. Their bytes go into
  * the version too, and a listed file that is not there is a build failure
  * rather than a silent omission.

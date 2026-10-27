@@ -2,7 +2,7 @@
  * The published surface of `@hushjot/core`.
  *
  * This file exists because there is a second client. The CLI and MCP server
- * (`private/viability-assessment.md` § 8 item 14) run in Node, hold the key on the
+ * (`@hushjot/cli`) run in Node, hold the key on the
  * operator's machine, and speak the same Firestore protocol as the browser. The
  * one thing they must never do is *reimplement* the format — the envelope
  * framing, `noteMetaJson`'s omit-when-null rule, `deriveTitle`, `excerptOf`, the

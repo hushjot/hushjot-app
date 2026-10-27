@@ -693,7 +693,7 @@
   }
 
   /**
-   * How to send text in from another app (`private/viability-assessment.md` item 16).
+   * How to send text in from another app.
    *
    * Lazy like the rest: instructions somebody reads once should not be in the
    * bytes everybody downloads.
@@ -805,8 +805,7 @@
   let capturing = false;
 
   /**
-   * Quick capture: text the operating system handed over
-   * (`private/viability-assessment.md` item 16).
+   * Quick capture: text the operating system handed over.
    *
    * Two arms, one applier. On Android the share sheet POSTs to `/capture` and
    * `src/sw.js` parks the body until `state/capture.ts` claims it, which has
@@ -2844,7 +2843,7 @@
 {:else}
 <div class="app" class:mobile={mobile.matches}>
   {#if workspace.warning?.kind === 'not-persistent'}
-    <!-- Storage-durability honesty (viability assessment §5.3): local-only
+    <!-- Storage-durability honesty: local-only
          text can be evicted, so say so and offer the two fixes a user can
          apply themselves. Hidden once sync makes eviction a cache loss. -->
     <div class="banner durability" role="status">

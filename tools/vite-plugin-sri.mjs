@@ -28,9 +28,8 @@
  * ## So why have it
  *
  * Because it is the machine-readable form of "this is the build I published".
- * The hashes it emits are the same ones a release would list (viability
- * assessment §5.1, Tier 0 item 5), which is what lets someone — or WEBCAT
- * later — compare what their browser was served against what the tag says
+ * The hashes it emits are the same ones a release would list, which is what
+ * lets someone — or WEBCAT later — compare what their browser was served against what the tag says
  * should have been served. The verification comes from publishing the hashes;
  * this puts them where a tool can find them, and costs one build step.
  *

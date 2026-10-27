@@ -1,6 +1,6 @@
 <script lang="ts">
   /**
-   * Export and import (spec §24, viability assessment §5.2): one dialog for
+   * Export and import (spec §24): one dialog for
    * getting notes out and putting them in.
    *
    * Its own chunk, loaded when first opened, like the preview (§28).

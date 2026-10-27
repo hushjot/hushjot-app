@@ -18,13 +18,8 @@ if (process.env.HUSHJOT_RELEASE !== '1') {
   console.error('');
   console.error('  Refusing to publish: releases are gated.');
   console.error('');
-  console.error('  Nothing in this project has ever been published to npm, and');
-  console.error('  publishing is meant to be a deliberate, authorised act.');
-  console.error('');
-  console.error('  Read hushjot-cli/RELEASING.md first — there are unresolved');
-  console.error('  blockers that would make a published package broken.');
-  console.error('');
-  console.error('  To authorise:  HUSHJOT_RELEASE=1 npm publish');
+  console.error('  Releases are cut by the maintainers, on purpose.');
+  console.error('  To publish deliberately:  HUSHJOT_RELEASE=1 npm publish');
   console.error('');
   process.exit(1);
 }

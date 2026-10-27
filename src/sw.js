@@ -56,8 +56,8 @@
  * ## Quick capture
  *
  * Android's share sheet posts to `/capture`, and this worker is the only
- * thing that ever sees the body (`private/viability-assessment.md` item 16,
- * `docs/security.md` § "Quick capture"). Three deliberate choices:
+ * thing that ever sees the body (`docs/security.md`
+ * § "Quick capture"). Three deliberate choices:
  *
  * - **POST, not GET.** A `GET` share target would put the user's text in a
  *   query string — in the address bar, in session history, and in Hosting's

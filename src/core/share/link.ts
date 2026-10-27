@@ -23,8 +23,8 @@
  * ## Why there is a version prefix
  *
  * `s1.` costs three characters and buys a second format later without
- * guessing. It is also a discriminator: `private/viability-assessment.md` item 16
- * wants quick capture through a URL fragment too, and two fragment schemes on
+ * guessing. It is also a discriminator: quick capture may
+ * come in through a URL fragment too, and two fragment schemes on
  * one origin must be able to tell each other apart.
  *
  * Pure string handling. The key is carried as text and only becomes a

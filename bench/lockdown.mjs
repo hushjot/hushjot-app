@@ -1,7 +1,7 @@
 /**
  * A cost lockdown, against the real emulators — a correctness gate, not a budget.
  *
- * The kill switch (`private/cost-monitoring.md`) swaps the Firestore rules for
+ * The cost kill switch swaps the Firestore rules for
  * a ruleset that refuses every client. Every request then fails with the same
  * `permission-denied` an account with no plan gets, and before the pause state
  * existed the app read it exactly that way. What this proves needs the rules,

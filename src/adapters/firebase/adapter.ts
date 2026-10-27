@@ -125,7 +125,7 @@ function ensureAuth(application: FirebaseApp): Auth {
 }
 
 /**
- * The shape the billing API writes to `entitlements/{uid}` (private/billing.md).
+ * The shape the billing API writes to `entitlements/{uid}`.
  * Anything malformed reads as "no plan" rather than throwing: the rules hold
  * the real verdict, and a label must not take a session down.
  */
