@@ -136,6 +136,16 @@ const manifest = {
   engines: { node: '>=20' },
   dependencies: { 'hash-wasm': '^4.12.0' },
   license: 'AGPL-3.0-only',
+  author: "Nebulosa d'Ideias Unipessoal Lda.",
+  homepage: 'https://hushjot.com',
+  // The package is built from a subfolder of the app, so `directory` lets the
+  // npm page link to the source rather than to the app's root.
+  repository: {
+    type: 'git',
+    url: 'https://github.com/hushjot/hushjot-app.git',
+    directory: 'src/core',
+  },
+  bugs: { url: 'https://github.com/hushjot/hushjot-app/issues' },
   // Publishing is deliberate. The built package is unpublishable unless a
   // release build explicitly asks for it, so a stray `npm publish` in
   // dist-core cannot reach the registry. See hushjot-cli/RELEASING.md.
