@@ -23,6 +23,7 @@ import {
   toggleQuote,
 } from './formatKeys.ts';
 import { insertCodeFence } from './fenceKeys.ts';
+import { tableInsertRow } from './tableKeys.ts';
 
 export type AccessoryId =
   | 'heading'
@@ -36,7 +37,8 @@ export type AccessoryId =
   | 'indent'
   | 'outdent'
   | 'undo'
-  | 'redo';
+  | 'redo'
+  | 'tableRow';
 
 const HEADING = /^ {0,3}(#{1,6})(?:[ \t]+|$)/;
 
@@ -81,6 +83,10 @@ const COMMANDS: Record<AccessoryId, Command> = {
   outdent: indentLess,
   undo,
   redo,
+  // Mod-Enter on a desktop. Shown only while the cursor is in a table, since
+  // a phone's Enter already means "next row" there and nothing else inserts
+  // one mid-table.
+  tableRow: tableInsertRow,
 };
 
 export function accessoryCommand(id: AccessoryId): Command {

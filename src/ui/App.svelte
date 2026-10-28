@@ -525,6 +525,13 @@
     return PhoneChrome.trackKeyboardInset();
   });
 
+  /**
+   * Whether the focused editor's cursor is in a table, which is when the key
+   * bar offers its insert-row key. Reported by the editor only when it
+   * changes, so it is no cost to the typing path.
+   */
+  let caretInTable = $state(false);
+
   /** The key bar takes the tab bar's place while the note has the keyboard. */
   const keyBarUp = $derived(
     mobile.matches && workspace.editorOpen && editorFocused && focusedMode !== 'preview',
@@ -3497,6 +3504,9 @@
                           titleSource={titleSource}
                           onOpenLink={followLink}
                           onCreateNote={(title: string) => void createTitled(title)}
+                          onInTable={(on: boolean) => {
+                            if (i === workspace.focusedIndex) caretInTable = on;
+                          }}
                           onScrollTop={mode === 'split'
                             ? (pos: number) => previewRefs.get(pane)?.scrollToSource(pos)
                             : undefined}
@@ -3644,6 +3654,7 @@
            keyboard leaves almost no note on screen, and while the keyboard is
            up the four destinations are not what the thumb is reaching for. -->
       <PhoneChrome.KeyBar
+        inTable={caretInTable}
         onAction={(id) => editorRefs.get(workspace.panes[workspace.focusedIndex]!)?.runAccessory(id)}
         onDismiss={() => editorRefs.get(workspace.panes[workspace.focusedIndex]!)?.blurEditor()}
       />

@@ -14,15 +14,22 @@
    * Twelve 44px targets are wider than a 412px screen, so the strip scrolls
    * horizontally. The alternative — smaller buttons — is the thing this whole
    * redesign exists to stop.
+   *
+   * Inside a table a thirteenth key, insert row, leads the strip. A phone's
+   * Enter already moves down a row there, so without it a row could only be
+   * added at the bottom. It goes first so it never needs a scroll to find,
+   * and only in a table because everywhere else it would do nothing.
    */
   import type { AccessoryId } from '../../editor/accessoryKeys.ts';
 
   interface Props {
     onAction: (id: AccessoryId) => void;
     onDismiss: () => void;
+    /** The cursor is in a table: offer the insert-row key. */
+    inTable?: boolean;
   }
 
-  let { onAction, onDismiss }: Props = $props();
+  let { onAction, onDismiss, inTable = false }: Props = $props();
 
   const KEYS: { id: AccessoryId; label: string; glyph: string }[] = [
     { id: 'heading', label: 'Heading', glyph: 'H' },
@@ -38,6 +45,9 @@
     { id: 'undo', label: 'Undo', glyph: '↶' },
     { id: 'redo', label: 'Redo', glyph: '↷' },
   ];
+
+  const ROW_KEY = { id: 'tableRow', label: 'Insert row below', glyph: '⊞' } as const;
+  const keys = $derived(inTable ? [ROW_KEY, ...KEYS] : KEYS);
 </script>
 
 <!-- `onpointerdown` with preventDefault, not `onclick`: a click would move
@@ -45,7 +55,7 @@
      selection the command is about to act on. -->
 <div class="keybar" role="toolbar" aria-label="Markdown formatting">
   <div class="keys">
-    {#each KEYS as key (key.id)}
+    {#each keys as key (key.id)}
       <button
         type="button"
         class="key"

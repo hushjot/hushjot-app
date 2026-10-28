@@ -9,8 +9,10 @@ import { describe, it, expect } from 'vitest';
 import { EditorSelection, EditorState, type TransactionSpec } from '@codemirror/state';
 import { markdownLean } from '../../src/editor/markdownLean.ts';
 import {
+  cursorInTable,
   findTable,
   formatTable,
+  insertRowSpec,
   insertTableSpec,
   moveCellSpec,
   splitRow,
@@ -132,6 +134,49 @@ describe('tableEnterSpec', () => {
     expect(run('| a | b |\n|-|-|\n| 1 | 2 |\n|  ‸ |  |', tableEnterSpec)).toBe(
       '| a   | b   |\n| --- | --- |\n| 1   | 2   |\n‸',
     );
+  });
+});
+
+describe('insertRowSpec', () => {
+  it('inserts an empty row below a middle row, keeping the column', () => {
+    expect(run('| a | b |\n|-|-|\n| 1 | 2‸ |\n| 3 | 4 |', insertRowSpec)).toBe(
+      '| a   | b   |\n| --- | --- |\n| 1   | 2   |\n|     | ‸    |\n| 3   | 4   |',
+    );
+  });
+
+  it('inserts the first body row from the header', () => {
+    expect(run('| a‸ | b |\n|-|-|\n| 1 | 2 |', insertRowSpec)).toBe(
+      '| a   | b   |\n| --- | --- |\n| ‸    |     |\n| 1   | 2   |',
+    );
+  });
+
+  it('adds a row after the last one', () => {
+    expect(run('| a | b |\n|-|-|\n| 1‸ | 2 |\n\ntext', insertRowSpec)).toBe(
+      '| a   | b   |\n| --- | --- |\n| 1   | 2   |\n| ‸    |     |\n\ntext',
+    );
+  });
+
+  it('keeps a quote prefix', () => {
+    expect(run('> | a | b |\n> |-|-|\n> | 1‸ | 2 |', insertRowSpec)).toBe(
+      '> | a   | b   |\n> | --- | --- |\n> | 1   | 2   |\n> | ‸    |     |',
+    );
+  });
+
+  it('returns null outside a table so Mod-Enter still ticks tasks', () => {
+    expect(run('- [ ] task‸', insertRowSpec)).toBe('null');
+  });
+});
+
+describe('cursorInTable', () => {
+  it('is true anywhere in a table, edges included', () => {
+    expect(cursorInTable(state('| a‸ | b |\n|-|-|\n| 1 | 2 |'))).toBe(true);
+    expect(cursorInTable(state('‸| a | b |\n|-|-|\n| 1 | 2 |'))).toBe(true);
+    expect(cursorInTable(state('| a | b |\n|-|-|\n| 1 | 2 |‸'))).toBe(true);
+  });
+
+  it('is false outside one, and for pipes in a fence', () => {
+    expect(cursorInTable(state('| a | b |\n|-|-|\n\ntext‸'))).toBe(false);
+    expect(cursorInTable(state('```\n| a | b‸ |\n|-|-|\n```'))).toBe(false);
   });
 });
 

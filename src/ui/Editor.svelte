@@ -3,6 +3,7 @@
   import { EditorView } from '@codemirror/view';
   import { accessoryCommand, type AccessoryId } from '../editor/accessoryKeys.ts';
   import { toggleTaskAtSpec } from '../editor/formatKeys.ts';
+  import { cursorInTable } from '../editor/tableKeys.ts';
   import type { EditorState } from '@codemirror/state';
   import {
     createEditorState,
@@ -50,6 +51,8 @@
     onOpenLink?: ((target: string) => void) | undefined;
     /** The link chip's Create, for a tapped `[[link]]` that names no note. */
     onCreateNote?: ((title: string) => void) | undefined;
+    /** The cursor entered or left a table: the phone key bar's row key. */
+    onInTable?: ((inTable: boolean) => void) | undefined;
   }
 
   let {
@@ -63,6 +66,7 @@
     titleSource,
     onOpenLink,
     onCreateNote,
+    onInTable,
   }: Props = $props();
 
   let host = $state<HTMLDivElement>();
@@ -116,6 +120,11 @@
     else openLink(title);
   };
 
+  /** Stable for the same reason as `openLink`. */
+  const reportInTable = (inTable: boolean): void => {
+    untrack(() => onInTable)?.(inTable);
+  };
+
   function remember(id: string, state: EditorState): void {
     // Re-inserting moves the key to the end, giving a cheap LRU ordering.
     states.delete(id);
@@ -141,6 +150,7 @@
       spellcheck: spellcheckEnabled,
       onOpenLink: openLink,
       onCreateNote: createNote,
+      onInTable: reportInTable,
     });
   }
 
@@ -161,14 +171,19 @@
           spellcheck: spellcheckEnabled,
           onOpenLink: openLink,
           onCreateNote: createNote,
+      onInTable: reportInTable,
         }),
       );
       mountedNoteId = null;
+      reportInTable(false);
       return;
     }
 
     view.setState(stateFor(id, text));
     mountedNoteId = id;
+    // `setState` fires no update listener, so the incoming note's cursor
+    // would otherwise keep the outgoing note's answer.
+    reportInTable(cursorInTable(view.state));
   }
 
   onMount(() => {
@@ -184,6 +199,7 @@
         spellcheck: spellcheckEnabled,
         onOpenLink: openLink,
         onCreateNote: createNote,
+      onInTable: reportInTable,
       }),
       parent: host!,
     });

@@ -1,6 +1,6 @@
 {
   "name": "hushjot",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "type": "module",
   "description": "An extremely fast, encrypted, local-first cloud text and Markdown notepad.",

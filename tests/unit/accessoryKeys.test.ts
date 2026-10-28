@@ -13,7 +13,7 @@ import {
 
 const IDS: AccessoryId[] = [
   'heading', 'bold', 'italic', 'bullet', 'task', 'quote',
-  'link', 'fence', 'indent', 'outdent', 'undo', 'redo',
+  'link', 'fence', 'indent', 'outdent', 'undo', 'redo', 'tableRow',
 ];
 
 /** Apply one spec and return the resulting text. */

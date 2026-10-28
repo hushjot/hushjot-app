@@ -64,7 +64,7 @@ import {
   toggleTask,
   wrapSelectionInput,
 } from './formatKeys.ts';
-import { openTablePicker, tableEnter, tableNextCell, tablePrevCell } from './tableKeys.ts';
+import { cursorInTable, openTablePicker, tableEnter, tableInsertRow, tableNextCell, tablePrevCell } from './tableKeys.ts';
 
 /** Line numbers are useful on a desktop and waste scarce width on a phone. */
 export const gutterCompartment = new Compartment();
@@ -105,10 +105,17 @@ export interface EditorSetupOptions {
    * `spellcheck="false"` stands.
    */
   spellcheck?: (() => boolean) | undefined;
+  /**
+   * Whether the cursor has entered or left a table, for the phone key bar's
+   * row key. Called only when the answer changes; omit it and nothing is
+   * checked.
+   */
+  onInTable?: ((inTable: boolean) => void) | undefined;
 }
 
 export function editorExtensions(options: EditorSetupOptions): Extension[] {
-  const { onChange, showGutter = true, tagSource, titleSource, spellcheck, onOpenLink, onCreateNote } = options;
+  const { onChange, showGutter = true, tagSource, titleSource, spellcheck, onOpenLink, onCreateNote, onInTable } = options;
+  let wasInTable: boolean | null = null;
 
   return [
     gutterCompartment.of(gutterExtension(showGutter)),
@@ -220,7 +227,9 @@ export function editorExtensions(options: EditorSetupOptions): Extension[] {
       { key: 'Mod-Shift-9', run: toggleList('task'), preventDefault: true },
       { key: 'Mod-Shift-.', run: toggleQuote, preventDefault: true },
       { key: 'Mod-Alt-t', run: openTablePicker, preventDefault: true },
-      // Falls through to defaultKeymap's insertBlankLine off a task line.
+      // In a table Mod-Enter inserts a row below; elsewhere it ticks a task,
+      // and off a task line falls through to defaultKeymap's insertBlankLine.
+      { key: 'Mod-Enter', run: tableInsertRow },
       { key: 'Mod-Enter', run: toggleTask },
 
       // Every Enter handler returns false when it does not apply, so ordering
@@ -254,6 +263,14 @@ export function editorExtensions(options: EditorSetupOptions): Extension[] {
     // awaits, no I/O, no indexing here.
     EditorView.updateListener.of((update) => {
       if (update.docChanged) onChange(update.state.doc.toString());
+      // A tree lookup at the cursor, not a parse: `cursorInTable` says why.
+      if (onInTable && (update.selectionSet || update.docChanged || wasInTable === null)) {
+        const now = cursorInTable(update.state);
+        if (now !== wasInTable) {
+          wasInTable = now;
+          onInTable(now);
+        }
+      }
     }),
   ];
 }

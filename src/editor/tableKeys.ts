@@ -3,8 +3,10 @@
  * a new table.
  *
  * Tab and Shift-Tab step through cells and Enter steps down a row, adding rows
- * at the end, as Obsidian's Advanced Tables and Typora do. Every one of those
- * moves re-aligns the table first. Alignment happens *only* on those keys, never
+ * at the end, as Obsidian's Advanced Tables and Typora do. Mod-Enter (and the
+ * phone key bar's row key, since a phone's Enter is already taken by moving
+ * down) inserts an empty row below the cursor's, anywhere in the table. Every
+ * one of those re-aligns the table first. Alignment happens *only* on those keys, never
  * as a side effect of typing, so the keystroke path stays untouched (§7) — the
  * cost is one table's worth of string padding when the user asks to move.
  *
@@ -30,6 +32,7 @@ import {
   type TransactionSpec,
 } from '@codemirror/state';
 import { ensureSyntaxTree, syntaxTree } from '@codemirror/language';
+import type { SyntaxNode } from '@lezer/common';
 import type { Command, EditorView } from '@codemirror/view';
 
 export type Align = 'left' | 'center' | 'right' | null;
@@ -300,6 +303,43 @@ export function tableEnterSpec(state: EditorState): TransactionSpec | null {
   return rewrite(state, table, { row: next, col });
 }
 
+/**
+ * Mod-Enter: an empty row straight below the cursor's — the first body row
+ * when the cursor is in the header — with the cursor in the same column.
+ */
+export function insertRowSpec(state: EditorState): TransactionSpec | null {
+  const pos = single(state);
+  if (pos === null) return null;
+  const table = findTable(state, pos);
+  if (!table) return null;
+
+  const { row, col } = cellAt(state, table, pos);
+  table.model.rows.splice(row, 0, []);
+  return rewrite(state, table, { row: row + 1, col });
+}
+
+/**
+ * Whether the cursor sits in a table, for showing the phone's row key.
+ *
+ * This runs on every selection change, keystrokes included, so unlike
+ * `findTable` it never forces a parse: it asks the tree already built. Near
+ * the cursor that tree is always current, and a stale "no" only delays the
+ * key until the next update.
+ */
+export function cursorInTable(state: EditorState): boolean {
+  const pos = single(state);
+  if (pos === null) return false;
+  const tree = syntaxTree(state);
+  // Both sides, because a caret at the very start or end of the table
+  // resolves to whatever lies outside it on one of them.
+  for (const side of [-1, 1] as const) {
+    for (let node: SyntaxNode | null = tree.resolveInner(pos, side); node; node = node.parent) {
+      if (node.name === 'Table') return true;
+    }
+  }
+  return false;
+}
+
 function command(build: (state: EditorState) => TransactionSpec | null): Command {
   return (view) => {
     if (view.state.readOnly) return false;
@@ -313,6 +353,7 @@ function command(build: (state: EditorState) => TransactionSpec | null): Command
 export const tableNextCell = command((state) => moveCellSpec(state, 1));
 export const tablePrevCell = command((state) => moveCellSpec(state, -1));
 export const tableEnter = command(tableEnterSpec);
+export const tableInsertRow = command(insertRowSpec);
 
 /**
  * A new `cols` × `rows` table at `pos` (rows not counting the header), with
