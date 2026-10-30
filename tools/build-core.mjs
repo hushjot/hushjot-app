@@ -87,6 +87,10 @@ cpSync(
   resolve(repoRoot, 'contract/format-vectors.json'),
   resolve(outDir, 'contract/format-vectors.json'),
 );
+cpSync(
+  resolve(repoRoot, 'contract/behaviour-vectors.json'),
+  resolve(outDir, 'contract/behaviour-vectors.json'),
+);
 cpSync(resolve(repoRoot, 'firestore.rules'), resolve(outDir, 'contract/firestore.rules'));
 
 // 6. Ambient types the emitted signatures depend on. See the header.
@@ -129,6 +133,7 @@ const manifest = {
   exports: {
     '.': { types: './public.d.ts', default: './public.js' },
     './contract/format-vectors.json': './contract/format-vectors.json',
+    './contract/behaviour-vectors.json': './contract/behaviour-vectors.json',
     './contract/firestore.rules': './contract/firestore.rules',
   },
   // Node 22.6 is where the repo's `.ts` import style stopped needing a loader,
@@ -178,6 +183,9 @@ writeFileSync(
     '- `@hushjot/core/contract/format-vectors.json` — frozen ciphertext, key',
     '  records and derivations. Assert against these; a divergence means the two',
     '  clients no longer agree about what a note looks like on disk.',
+    '- `@hushjot/core/contract/behaviour-vectors.json` — deterministic derivations',
+    '  (query grammar, tags, folders, list order, search ranking, meter) every',
+    '  client must reproduce exactly. Regenerated freely; see its generator.',
     '- `@hushjot/core/contract/firestore.rules` — the live security rules, for',
     '  running an emulator against the real thing rather than a stale copy.',
     '',

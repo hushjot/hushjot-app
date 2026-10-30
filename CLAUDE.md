@@ -538,6 +538,13 @@ copy per open note (up to four tiles, `src/ui/tiling.ts`) — **ciphertext only*
   reaches the CLI's emulator tests immediately, because the build ships the live rules file
   inside the package. The CLI is read-only on `users/{uid}/keys/primary` and has no delete verb;
   `docs/security.md` § "The CLI and MCP server" is the contract for what it may do.
+  **And a third:** the Rust SDK (`../hushjot-rs`) ports `src/core/` and the sync engine for
+  third-party apps. It vendors `contract/` (`tools/sync-contract.sh`), so a format or rules change
+  must also pass its `cargo test` and `tools/emulator-test.sh`. Behaviour it must reproduce but that
+  is not stored bytes — the query grammar, tags, folders, list order, search ranking — is pinned in
+  `contract/behaviour-vectors.json` (`npm run vectors:behaviour`, deterministic, safe to regenerate;
+  `tests/unit/behaviourVectors.test.ts` fails when it is stale). `docs/security.md` § "Third-party
+  clients: the Rust SDK" is its contract.
 - **Every vault-key seal names its record.** Notes (meta and body), folders and share-key index
   entries are sealed with `recordContext(kind, id)` (envelope version 2), and must be opened with
   the same context — through `Codec`, which takes the id on every call, or explicitly as the crash

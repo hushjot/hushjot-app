@@ -1544,6 +1544,66 @@ its scope is refused, that `--scope` cannot widen the configured scope, that a
 `replace` with a stale revision is refused, and that one with the read revision
 leaves the old text in `versions/` under the real rules.
 
+## Third-party clients: the Rust SDK
+
+`hushjot-rs` (crates `hushjot` and `hushjot-core`) is a third client, built so
+that other apps — a desktop Markdown editor first — can offer HushJot Sync. It
+speaks the same Firestore REST protocol as the CLI and holds the data key in
+the embedding app's process. The rules are enforced identically, so the
+backend is handed nothing a browser does not hand it. What is new is **whose
+code holds the plaintext**, and that is the whole of this section.
+
+### What the SDK guarantees, and what it cannot
+
+- It puts **only ciphertext** in its local store (SQLite or the app's own,
+  behind a `Store` trait), byte-identical to Firestore's rows, and never
+  persists the search index — the rule IndexedDB and the CLI cache follow.
+- It is **read-only on `users/{uid}/keys/primary`**, like the CLI. A vault is
+  only ever created by this app, which shows the recovery code. An account
+  with no vault gets `NoVault` and is sent here.
+- It binds its store to the account's uid and the key record's `createdAt`,
+  and refuses to unlock a store bound to another account or to a vault the
+  account has since been reset away from — the same reasoning as
+  `accountResetElsewhere`: a push under the wrong key is permanent.
+- It has **delete as a tombstone** (with the final text uploaded as a version
+  first), conflict copies, the metadata-only rebase and the meter, ported
+  from `core/sync/engine.ts` and checked against this repository's
+  `contract/format-vectors.json` and `contract/behaviour-vectors.json`.
+- "Stay unlocked" caches the raw DEK in the OS keychain under the same
+  `wrappedByPassphrase` fingerprint the CLI uses, so a passphrase change on any
+  device invalidates it. Off by default.
+
+It **cannot** stop an embedding app from logging, indexing to disk, or
+uploading the plaintext it is handed. That is the trust delta: a user who
+signs in to a third-party app trusts that app's code with their notes, exactly
+as they trust this one's. The SDK's integration guide makes the rules explicit
+(no plaintext in logs, crash reports, temp files or third-party services) and
+the SDK is MIT/Apache-licensed and open source so its half can be audited. Its
+`Debug` output redacts keys, tokens and share keys.
+
+### Two deliberate differences from this app
+
+- The lost-acknowledgement check in conflict resolution also requires the
+  stored `meta` and `body` bytes to equal what was sent, not only `updatedAt`.
+  Two devices writing in the same millisecond otherwise each take the other's
+  write for their own and drop their change without a copy. Every seal draws a
+  fresh nonce, so only this device's own write can match.
+- Local folder writes stamp `max(now, previous + 1)`, so a rename in the same
+  millisecond as the folder's creation still wins on pull.
+
+Both are candidates to adopt here.
+
+### Verification
+
+`tools/emulator-test.sh` in `hushjot-rs` runs the real REST client against the
+emulator loaded with this repository's rules: first push, revision
+advancement, a two-device compare-and-swap race, the metadata rebase, delete
+and undelete, history, publish and revoke of a share, a full push window and
+its reset, storage full, a lockdown swap (reported as paused, never as not
+approved), a revoked invitation, and a plaintext audit of every stored
+document. When `hushjot-cli` is checked out beside it, the same run writes with
+one client and reads with the other in both directions.
+
 ---
 
 ## Recovery, and why there is no reset link

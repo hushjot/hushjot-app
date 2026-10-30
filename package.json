@@ -16,6 +16,7 @@
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "build:core": "node tools/build-core.mjs",
     "vectors": "npm run build:core && node tools/make-format-vectors.mjs",
+    "vectors:behaviour": "npm run build:core && node tools/make-behaviour-vectors.mjs",
     "test": "vitest run --exclude 'tests/rules/**'",
     "verify": "npm run check && npm run build:core && npm test && npm run test:rules && npm run bench",
     "bench": "npm run bench:size && npm run bench:app && npm run bench:phase2 && npm run bench:phase3 && npm run bench:phase4 && npm run bench:allowlist && npm run bench:vault && npm run bench:phase5 && npm run bench:phase6 && npm run bench:mobile && npm run bench:scale && npm run bench:preview && npm run bench:history && npm run bench:historySync && npm run bench:share && npm run bench:lockdown && npm run bench:rowMenu && npm run bench:capture && npm run bench:dragDrop",
